@@ -8,9 +8,6 @@
     <meta name="description"
         content="Royal Specialized Dental Clinic (RSDC) - Professional and personalized dental excellence in Kigali, Rwanda.">
 
-    <!-- Alpine.js -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
     @stack('styles')

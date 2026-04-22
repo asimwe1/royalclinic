@@ -1,190 +1,298 @@
-<div class="bg-white rounded-[2.5rem] shadow-2xl overflow-hidden border border-clinic-light">
-    <!-- Progress Bar -->
-    <div class="bg-clinic-light/30 px-8 py-6 border-b border-clinic-light">
-        <div class="flex items-center justify-between mb-4">
+<div class="bg-white rounded-[2rem] shadow-2xl overflow-hidden border border-gray-100">
+
+    {{-- ── Progress Steps ───────────────────────────────────────────── --}}
+    <div class="bg-gray-50 px-6 py-5 border-b border-gray-100">
+        <div class="flex items-center justify-between relative">
+            {{-- Connector line behind the steps --}}
+            <div class="absolute left-0 right-0 top-5 h-0.5 bg-gray-200 mx-10 z-0"></div>
+
             @foreach(['Service', 'Schedule', 'Details', 'Done'] as $i => $label)
-            <div class="flex flex-col items-center flex-1 relative">
-                <div
-                    class="w-10 h-10 rounded-full flex items-center justify-center font-bold transition duration-500 {{ $step > $i + 1 ? 'bg-green-500 text-white' : ($step == $i + 1 ? 'bg-clinic-royal text-white scale-110' : 'bg-white text-clinic-slate border border-clinic-light') }}">
-                    @if($step > $i + 1) ✓ @else {{ $i + 1 }} @endif
+            @php $num = $i + 1; @endphp
+            <div class="flex flex-col items-center z-10 flex-1">
+                <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 shadow-sm
+                    @if($step > $num) bg-green-500 text-white
+                    @elseif($step == $num) bg-[#1a4fba] text-white scale-110 ring-4 ring-[#1a4fba]/20
+                    @else bg-white text-gray-400 border-2 border-gray-200
+                    @endif">
+                    @if($step > $num)
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                    </svg>
+                    @else
+                    {{ $num }}
+                    @endif
                 </div>
                 <span
-                    class="text-xs font-bold mt-2 {{ $step == $i + 1 ? 'text-clinic-royal' : 'text-clinic-slate' }}">{{
-                    $label }}</span>
-                @if($i < 3) <div
-                    class="absolute top-5 left-[60%] w-[80%] h-[2px] {{ $step > $i + 1 ? 'bg-green-500' : 'bg-clinic-light' }}">
+                    class="text-xs font-semibold mt-2 @if($step == $num) text-[#1a4fba] @elseif($step > $num) text-green-500 @else text-gray-400 @endif">
+                    {{ $label }}
+                </span>
             </div>
-            @endif
-        </div>
-        @endforeach
-    </div>
-</div>
-
-<div class="p-8 lg:p-12">
-    <!-- Step 1: Select Service -->
-    @if($step === 1)
-    <div x-data x-transition:enter="transition ease-out duration-300"
-        x-transition:enter-start="opacity-0 translate-x-12">
-        <h3 class="font-urbanist font-extrabold text-3xl mb-2">Select a Service</h3>
-        <p class="text-clinic-slate mb-8">Choose the treatment you would like to book an appointment for.</p>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            @foreach($services as $service)
-            <label
-                class="relative flex items-center p-6 rounded-2xl border-2 cursor-pointer transition duration-300 {{ $service_id == $service->id ? 'border-clinic-royal bg-clinic-royal/5' : 'border-clinic-light hover:border-clinic-royal/30' }}">
-                <input type="radio" wire:model="service_id" value="{{ $service->id }}" class="hidden">
-                <div class="w-12 h-12 bg-clinic-royal/10 rounded-xl flex items-center justify-center text-2xl mr-4">
-                    {{ $service->icon ?: '✨' }}
-                </div>
-                <div>
-                    <span class="block font-bold text-clinic-navy text-lg">{{ $service->title }}</span>
-                    <span class="block text-sm text-clinic-slate">{{ Str::limit($service->description, 50) }}</span>
-                </div>
-                @if($service_id == $service->id)
-                <div class="ml-auto text-clinic-royal">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd"
-                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                            clip-rule="evenodd" />
-                    </svg>
-                </div>
-                @endif
-            </label>
             @endforeach
         </div>
-        @error('service_id') <span class="text-red-500 text-sm mt-2 block">{{ $message }}</span> @enderror
     </div>
-    @endif
 
-    <!-- Step 2: Schedule -->
-    @if($step === 2)
-    <div x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-x-12">
-        <h3 class="font-urbanist font-extrabold text-3xl mb-2">Schedule Appointment</h3>
-        <p class="text-clinic-slate mb-8">Pick your preferred date and time.</p>
+    {{-- ── Step Content ─────────────────────────────────────────────── --}}
+    <div class="p-6 sm:p-10">
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-            <div>
-                <label class="block font-bold text-clinic-navy mb-3">Select Date</label>
-                <input type="date" wire:model.live="appointment_date"
-                    class="w-full p-4 rounded-xl border-clinic-light focus:ring-clinic-royal focus:border-clinic-royal bg-clinic-light/50 font-medium">
-                @error('appointment_date') <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> @enderror
-            </div>
-            <div>
-                <label class="block font-bold text-clinic-navy mb-3">Preferred Doctor (Optional)</label>
-                <select wire:model="doctor_id"
-                    class="w-full p-4 rounded-xl border-clinic-light focus:ring-clinic-royal focus:border-clinic-royal bg-clinic-light/50 font-medium">
-                    <option value="">Any available doctor</option>
-                    @foreach($doctors as $doctor)
-                    <option value="{{ $doctor->id }}">{{ $doctor->name }} ({{ $doctor->specialty }})</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
+        {{-- STEP 1: Choose Service --}}
+        @if($step === 1)
+        <div>
+            <h3 class="font-bold text-[#0d1e3d] text-2xl mb-1">Choose a Service</h3>
+            <p class="text-gray-400 text-sm mb-7">Select the treatment you would like to book.</p>
 
-        <div class="mt-10">
-            <label class="block font-bold text-clinic-navy mb-4">Available Time Slots</label>
-            <div class="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-6 gap-3">
-                @foreach($timeSlots as $time)
-                <button wire:click="$set('appointment_time', '{{ $time }}')"
-                    class="p-4 rounded-xl font-bold text-sm transition duration-300 border-2 {{ $appointment_time == $time ? 'bg-clinic-royal border-clinic-royal text-white shadow-lg' : 'bg-white border-clinic-light text-clinic-navy hover:border-clinic-royal/50' }}">
-                    {{ $time }}
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                @foreach($services as $service)
+                <button wire:click="selectService({{ $service->id }})" type="button" class="relative flex items-start p-5 rounded-xl border-2 text-left cursor-pointer transition-all duration-200
+                        @if($service_id == $service->id)
+                            border-[#1a4fba] bg-[#1a4fba]/5 shadow-md
+                        @else
+                            border-gray-200 hover:border-[#1a4fba]/40 hover:bg-gray-50
+                        @endif">
+
+                    <div class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl flex-shrink-0 mr-4
+                        @if($service_id == $service->id) bg-[#1a4fba]/10 @else bg-gray-50 @endif">
+                        {{ $service->icon ?: '🦷' }}
+                    </div>
+                    <div class="min-w-0">
+                        <span class="block font-bold text-[#0d1e3d] text-sm">{{ $service->title }}</span>
+                        <span class="block text-xs text-gray-400 mt-0.5 truncate">
+                            {{ \Illuminate\Support\Str::limit(strip_tags($service->description ?? ''), 55) }}
+                        </span>
+                    </div>
+
+                    @if($service_id == $service->id)
+                    <div class="ml-auto pl-2 flex-shrink-0">
+                        <div class="w-6 h-6 rounded-full bg-[#1a4fba] flex items-center justify-center">
+                            <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                                    d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                    </div>
+                    @endif
                 </button>
                 @endforeach
             </div>
-            @error('appointment_time') <span class="text-red-500 text-sm mt-2 block">{{ $message }}</span> @enderror
+
+            @error('service_id')
+            <p class="text-red-500 text-sm mt-3 flex items-center gap-1.5">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                {{ $message }}
+            </p>
+            @enderror
         </div>
-    </div>
-    @endif
-
-    <!-- Step 3: Patient Info -->
-    @if($step === 3)
-    <div x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-x-12">
-        <h3 class="font-urbanist font-extrabold text-3xl mb-2">Almost Done</h3>
-        <p class="text-clinic-slate mb-8">Please provide your contact information to finalize your booking.</p>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-                <label class="block font-bold text-clinic-navy mb-2">Full Name</label>
-                <input type="text" wire:model="patient_name"
-                    class="w-full p-4 rounded-xl border-clinic-light focus:ring-clinic-royal focus:border-clinic-royal bg-clinic-light/50 font-medium"
-                    placeholder="John Doe">
-                @error('patient_name') <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> @enderror
-            </div>
-            <div>
-                <label class="block font-bold text-clinic-navy mb-2">Email Address</label>
-                <input type="email" wire:model="email"
-                    class="w-full p-4 rounded-xl border-clinic-light focus:ring-clinic-royal focus:border-clinic-royal bg-clinic-light/50 font-medium"
-                    placeholder="john@example.com">
-                @error('email') <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> @enderror
-            </div>
-            <div>
-                <label class="block font-bold text-clinic-navy mb-2">Phone Number</label>
-                <input type="tel" wire:model="phone"
-                    class="w-full p-4 rounded-xl border-clinic-light focus:ring-clinic-royal focus:border-clinic-royal bg-clinic-light/50 font-medium"
-                    placeholder="+250 XXX XXX XXX">
-                @error('phone') <span class="text-red-500 text-sm mt-1 block">{{ $message }}</span> @enderror
-            </div>
-            <div>
-                <label class="block font-bold text-clinic-navy mb-2">Message (Optional)</label>
-                <input type="text" wire:model="message"
-                    class="w-full p-4 rounded-xl border-clinic-light focus:ring-clinic-royal focus:border-clinic-royal bg-clinic-light/50 font-medium"
-                    placeholder="Any specific concerns?">
-            </div>
-        </div>
-    </div>
-    @endif
-
-    <!-- Step 4: Success -->
-    @if($step === 4)
-    <div class="text-center py-10" x-transition:enter="transition cubic-bezier(0,0,0,1) duration-500 scale-90 opacity-0"
-        x-transition:enter-end="scale-100 opacity-100">
-        <div
-            class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center text-5xl mx-auto mb-8 animate-bounce">
-            ✅
-        </div>
-        <h3 class="font-urbanist font-extrabold text-4xl mb-4">Appointment Requested!</h3>
-        <p class="text-clinic-slate text-lg mb-10 max-w-lg mx-auto">Thank you, <span
-                class="font-bold text-clinic-navy">{{ $patient_name }}</span>. We have received your request and will
-            contact you shortly at <span class="font-bold text-clinic-navy">{{ $email }}</span> to confirm your session.
-        </p>
-        <button wire:click="$set('step', 1)"
-            class="bg-clinic-navy text-white px-10 py-4 rounded-full font-urbanist font-bold hover:bg-clinic-royal transition shadow-xl">
-            Book Another One
-        </button>
-    </div>
-    @endif
-
-    <!-- Navigation Buttons -->
-    @if($step < 4) <div class="flex justify-between items-center mt-12 pt-8 border-t border-clinic-light">
-        @if($step > 1)
-        <button wire:click="prevStep"
-            class="font-bold text-clinic-navy hover:text-clinic-royal transition flex items-center">
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-            </svg>
-            Previous Step
-        </button>
-        @else
-        <div></div>
         @endif
 
-        @if($step < 3) <button wire:click="nextStep"
-            class="bg-clinic-navy text-white px-10 py-4 rounded-full font-urbanist font-bold hover:bg-clinic-royal transition shadow-xl flex items-center">
-            Next Step
-            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        {{-- STEP 2: Schedule --}}
+        @if($step === 2)
+        <div>
+            <h3 class="font-bold text-[#0d1e3d] text-2xl mb-1">Schedule Appointment</h3>
+            <p class="text-gray-400 text-sm mb-7">Pick your preferred date, time, and doctor.</p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+                <div>
+                    <label class="block text-xs font-bold text-[#0d1e3d] mb-2 uppercase tracking-wide">Date</label>
+                    <input type="date" wire:model.live="appointment_date" min="{{ date('Y-m-d') }}"
+                        class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#1a4fba]/30 focus:border-[#1a4fba] transition">
+                    @error('appointment_date')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-[#0d1e3d] mb-2 uppercase tracking-wide">Preferred
+                        Doctor</label>
+                    <select wire:model="doctor_id"
+                        class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#1a4fba]/30 focus:border-[#1a4fba] transition">
+                        <option value="">Any available doctor</option>
+                        @foreach($doctors as $doctor)
+                        <option value="{{ $doctor->id }}">{{ $doctor->name }} — {{ $doctor->specialty }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-xs font-bold text-[#0d1e3d] mb-3 uppercase tracking-wide">Available Time
+                    Slots</label>
+                <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2.5">
+                    @foreach($timeSlots as $time)
+                    <button type="button" wire:click="selectTime('{{ $time }}')" class="py-3 rounded-xl font-semibold text-sm transition-all duration-200 border-2
+                            @if($appointment_time === $time)
+                                bg-[#1a4fba] border-[#1a4fba] text-white shadow-md
+                            @else
+                                bg-white border-gray-200 text-[#0d1e3d] hover:border-[#1a4fba]/50 hover:bg-[#1a4fba]/5
+                            @endif">
+                        {{ $time }}
+                    </button>
+                    @endforeach
+                </div>
+                @error('appointment_time')
+                <p class="text-red-500 text-xs mt-2 flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    {{ $message }}
+                </p>
+                @enderror
+            </div>
+        </div>
+        @endif
+
+        {{-- STEP 3: Patient Details --}}
+        @if($step === 3)
+        <div>
+            <h3 class="font-bold text-[#0d1e3d] text-2xl mb-1">Your Details</h3>
+            <p class="text-gray-400 text-sm mb-7">Almost there — just a few contact details.</p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div class="sm:col-span-2">
+                    <label class="block text-xs font-bold text-[#0d1e3d] mb-2 uppercase tracking-wide">Full Name</label>
+                    <input type="text" wire:model.blur="patient_name" placeholder="John Doe"
+                        class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:ring-2 focus:ring-[#1a4fba]/30 focus:border-[#1a4fba] transition @error('patient_name') border-red-400 @enderror">
+                    @error('patient_name')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-[#0d1e3d] mb-2 uppercase tracking-wide">Email
+                        Address</label>
+                    <input type="email" wire:model.blur="email" placeholder="you@example.com"
+                        class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:ring-2 focus:ring-[#1a4fba]/30 focus:border-[#1a4fba] transition @error('email') border-red-400 @enderror">
+                    @error('email')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-[#0d1e3d] mb-2 uppercase tracking-wide">Phone
+                        Number</label>
+                    <input type="tel" wire:model.blur="phone" placeholder="+250 788 000 000"
+                        class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:ring-2 focus:ring-[#1a4fba]/30 focus:border-[#1a4fba] transition @error('phone') border-red-400 @enderror">
+                    @error('phone')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+                </div>
+
+                <div class="sm:col-span-2">
+                    <label class="block text-xs font-bold text-[#0d1e3d] mb-2 uppercase tracking-wide">Additional Notes
+                        <span class="font-normal text-gray-400">(Optional)</span></label>
+                    <textarea wire:model="message" rows="3"
+                        placeholder="Any specific concerns or information for the doctor..."
+                        class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm focus:outline-none focus:ring-2 focus:ring-[#1a4fba]/30 focus:border-[#1a4fba] transition resize-none"></textarea>
+                </div>
+            </div>
+
+            {{-- Booking Summary Preview --}}
+            <div class="mt-6 p-4 rounded-xl bg-[#0d1e3d]/5 border border-[#0d1e3d]/10 text-sm">
+                <p class="font-bold text-[#0d1e3d] mb-2 text-xs uppercase tracking-wide">Your Booking Summary</p>
+                <div class="grid grid-cols-2 gap-y-1 text-xs text-gray-600">
+                    <span class="font-semibold">Service:</span>
+                    <span>{{ $services->where('id', $service_id)->first()?->title ?? '—' }}</span>
+                    <span class="font-semibold">Date:</span>
+                    <span>{{ $appointment_date ? \Carbon\Carbon::parse($appointment_date)->format('D, M j Y') : '—'
+                        }}</span>
+                    <span class="font-semibold">Time:</span>
+                    <span>{{ $appointment_time ?: '—' }}</span>
+                    <span class="font-semibold">Doctor:</span>
+                    <span>{{ $doctor_id ? ($doctors->where('id', $doctor_id)->first()?->name ?? 'Not set') : 'Any
+                        available' }}</span>
+                </div>
+            </div>
+        </div>
+        @endif
+
+        {{-- STEP 4: Confirmation --}}
+        @if($step === 4)
+        <div class="text-center py-6">
+            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg class="w-10 h-10 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+            </div>
+            <h3 class="font-bold text-[#0d1e3d] text-2xl mb-2">Appointment Requested!</h3>
+            <p class="text-gray-400 text-sm mb-6 max-w-sm mx-auto">
+                Thank you, <span class="font-bold text-[#0d1e3d]">{{ $confirmed_name }}</span>. We'll confirm your
+                appointment at <span class="font-bold text-[#1a4fba]">{{ $confirmed_email }}</span> shortly.
+            </p>
+
+            <div class="bg-gray-50 rounded-xl p-5 max-w-xs mx-auto text-left mb-7 border border-gray-100 text-sm">
+                <div class="space-y-2">
+                    <div class="flex justify-between">
+                        <span class="text-gray-400 font-medium">Service</span>
+                        <span class="font-bold text-[#0d1e3d]">{{ $confirmed_service }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400 font-medium">Date</span>
+                        <span class="font-bold text-[#0d1e3d]">{{ $confirmed_date }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400 font-medium">Time</span>
+                        <span class="font-bold text-[#0d1e3d]">{{ $confirmed_time }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400 font-medium">Status</span>
+                        <span class="text-yellow-600 font-bold">⏳ Pending Confirmation</span>
+                    </div>
+                </div>
+            </div>
+
+            <button wire:click="restart" type="button"
+                class="bg-[#1a4fba] text-white px-8 py-3 rounded-full font-bold text-sm hover:bg-[#0d1e3d] transition-all duration-300 shadow-lg">
+                Book Another Appointment
+            </button>
+        </div>
+        @endif
+
+    </div>
+
+    {{-- ── Navigation Buttons ───────────────────────────────────────── --}}
+    @if($step < 4) <div
+        class="px-6 sm:px-10 pb-8 flex items-center @if($step > 1) justify-between @else justify-end @endif gap-4">
+
+        @if($step > 1)
+        <button type="button" wire:click="prevStep"
+            class="inline-flex items-center text-sm font-semibold text-gray-500 hover:text-[#0d1e3d] transition gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+            Back
+        </button>
+        @endif
+
+        @if($step < 3) <button type="button" wire:click="nextStep" wire:loading.attr="disabled"
+            wire:loading.class="opacity-70 cursor-not-allowed"
+            class="inline-flex items-center gap-2 bg-[#0d1e3d] text-white text-sm font-bold px-7 py-3 rounded-full hover:bg-[#1a4fba] transition-all duration-300 shadow-lg">
+            <span wire:loading.remove wire:target="nextStep">Continue</span>
+            <span wire:loading wire:target="nextStep">Processing…</span>
+            <svg wire:loading.remove wire:target="nextStep" class="w-4 h-4" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+            <svg wire:loading wire:target="nextStep" class="w-4 h-4 animate-spin" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12a8 8 0 018-8v8H4z" />
             </svg>
             </button>
             @else
-            <button wire:click="submit"
-                class="bg-clinic-royal text-white px-12 py-4 rounded-full font-urbanist font-bold hover:bg-clinic-navy transition shadow-xl shadow-clinic-royal/20 flex items-center">
-                Confirm Booking
-                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <button type="button" wire:click="submit" wire:loading.attr="disabled"
+                wire:loading.class="opacity-70 cursor-not-allowed"
+                class="inline-flex items-center gap-2 bg-[#1a4fba] text-white text-sm font-bold px-8 py-3 rounded-full hover:bg-[#0d1e3d] transition-all duration-300 shadow-lg shadow-[#1a4fba]/20">
+                <span wire:loading.remove wire:target="submit">Confirm Booking</span>
+                <span wire:loading wire:target="submit">Submitting…</span>
+                <svg wire:loading.remove wire:target="submit" class="w-4 h-4" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <svg wire:loading wire:target="submit" class="w-4 h-4 animate-spin" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12a8 8 0 018-8v8H4z" />
                 </svg>
             </button>
             @endif
+
 </div>
 @endif
+
 </div>
+
 </div>

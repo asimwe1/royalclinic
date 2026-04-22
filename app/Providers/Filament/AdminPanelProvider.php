@@ -2,6 +2,8 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Admin\Widgets\LatestAppointmentsWidget;
+use App\Filament\Admin\Widgets\StatsOverviewWidget;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -27,21 +29,26 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->path('admin')
             ->login()
-            ->brandName('Royal Clinic Admin')
+            // ── Branding ────────────────────────────────────────────────
+            ->brandName('Royal Specialized Dental Clinic')
             ->colors([
                 'primary' => Color::hex('#1a4fba'),
                 'gray'    => Color::Slate,
             ])
+            // ── Resources & Pages ────────────────────────────────────────
             ->discoverResources(in: app_path('Filament/Admin/Resources'), for: 'App\\Filament\\Admin\\Resources')
             ->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\\Filament\\Admin\\Pages')
             ->pages([
                 Pages\Dashboard::class,
             ])
+            // ── Widgets ──────────────────────────────────────────────────
             ->discoverWidgets(in: app_path('Filament/Admin/Widgets'), for: 'App\\Filament\\Admin\\Widgets')
             ->widgets([
+                StatsOverviewWidget::class,
+                LatestAppointmentsWidget::class,
                 Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
             ])
+            // ── Middleware ───────────────────────────────────────────────
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
