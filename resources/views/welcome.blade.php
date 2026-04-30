@@ -10,8 +10,8 @@
 
         {{-- Background dental clinic photo --}}
         <div class="absolute inset-0">
-            <img src="https://images.unsplash.com/photo-1629909613654-28a3a7c4abd4?q=80&w=2070&auto=format&fit=crop"
-                class="w-full h-full object-cover opacity-35" alt="Royal Dental Clinic Kigali">
+            <img src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?q=80&w=2070&auto=format&fit=crop"
+                class="w-full h-full object-cover opacity-50" alt="Royal Dental Clinic Kigali">
             {{-- Left-side gradient overlay (stronger on left for text) --}}
             <div class="absolute inset-0 bg-gradient-to-r from-[#0d1e3d] via-[#0d1e3d]/70 to-[#0d1e3d]/20"></div>
         </div>
@@ -114,21 +114,21 @@
                     <div class="grid grid-cols-2 gap-4">
                         <div class="space-y-4">
                             <div class="rounded-2xl overflow-hidden h-48 shadow-lg">
-                                <img src="https://images.unsplash.com/photo-1629909615184-74f495363b67?q=80&w=600&auto=format&fit=crop"
+                                <img src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?q=80&w=600&auto=format&fit=crop"
                                     class="w-full h-full object-cover" alt="Dental care">
                             </div>
                             <div class="rounded-2xl overflow-hidden h-36 shadow-lg">
-                                <img src="https://images.unsplash.com/photo-1588776814222-269e25b1f002?q=80&w=600&auto=format&fit=crop"
+                                <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=600&auto=format&fit=crop"
                                     class="w-full h-full object-cover" alt="Dental equipment">
                             </div>
                         </div>
                         <div class="space-y-4 mt-8">
                             <div class="rounded-2xl overflow-hidden h-36 shadow-lg">
-                                <img src="https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?q=80&w=600&auto=format&fit=crop"
+                                <img src="https://images.unsplash.com/photo-1609840114035-3c981b782dfe?q=80&w=600&auto=format&fit=crop"
                                     class="w-full h-full object-cover" alt="Dental team">
                             </div>
                             <div class="rounded-2xl overflow-hidden h-48 shadow-lg">
-                                <img src="https://images.unsplash.com/photo-1629909613654-28a3a7c4abd4?q=80&w=600&auto=format&fit=crop"
+                                <img src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?q=80&w=600&auto=format&fit=crop"
                                     class="w-full h-full object-cover" alt="Clinic interior">
                             </div>
                         </div>

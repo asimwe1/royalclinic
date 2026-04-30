@@ -8,7 +8,7 @@
     {{-- Page Header --}}
     <section class="relative pt-36 pb-24 bg-[#0d1e3d] overflow-hidden">
         <div class="absolute inset-0">
-            <img src="https://images.unsplash.com/photo-1629909613654-28a3a7c4abd4?q=80&w=2070&auto=format&fit=crop"
+            <img src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?q=80&w=2070&auto=format&fit=crop"
                 class="w-full h-full object-cover opacity-20" alt="">
             <div class="absolute inset-0 bg-[#0d1e3d]/80"></div>
         </div>
@@ -119,7 +119,7 @@
                     </div>
                 </div>
                 <div class="rounded-3xl overflow-hidden shadow-2xl h-96">
-                    <img src="https://images.unsplash.com/photo-1629909615184-74f495363b67?q=80&w=1200&auto=format&fit=crop"
+                    <img src="https://images.unsplash.com/photo-1629909613654-28a3a7c4abd4?q=80&w=1200&auto=format&fit=crop"
                         class="w-full h-full object-cover" alt="RSDC Team">
                 </div>
             </div>

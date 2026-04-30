@@ -8,7 +8,7 @@
     {{-- Page Header --}}
     <section class="relative pt-36 pb-24 bg-[#0d1e3d] overflow-hidden">
         <div class="absolute inset-0">
-            <img src="https://images.unsplash.com/photo-1629909613654-28a3a7c4abd4?q=80&w=2070&auto=format&fit=crop"
+            <img src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?q=80&w=2070&auto=format&fit=crop"
                 class="w-full h-full object-cover opacity-20" alt="">
             <div class="absolute inset-0 bg-[#0d1e3d]/80"></div>
         </div>
@@ -43,20 +43,20 @@
             {{-- Static Blog Cards (until Posts model is implemented) --}}
             @php
             $posts = [
-            ['img'=>'https://images.unsplash.com/photo-1629909615184-74f495363b67?q=80&w=800&auto=format&fit=crop','cat'=>'General
+            ['img'=>'https://images.unsplash.com/photo-1606811841689-23dfddce3e95?q=80&w=800&auto=format&fit=crop','cat'=>'General
             Care','date'=>'April 15, 2025','read'=>'4 min read','title'=>'How Often Should You Really Visit the
             Dentist?','excerpt'=>'Most people know they should visit the dentist regularly, but how often is the right
             frequency? We break down the evidence-based recommendations for different patient profiles.','author'=>'Dr.
             Amara I.'],
-            ['img'=>'https://images.unsplash.com/photo-1588776814222-269e25b1f002?q=80&w=800&auto=format&fit=crop','cat'=>'Cosmetic','date'=>'March
+            ['img'=>'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=800&auto=format&fit=crop','cat'=>'Cosmetic','date'=>'March
             28, 2025','read'=>'5 min read','title'=>'Teeth Whitening: What Actually Works?','excerpt'=>'From in-clinic
             treatments to over-the-counter strips and charcoal toothpastes — we compare the options and separate fact
             from marketing hype.','author'=>'Dr. Sophie M.'],
-            ['img'=>'https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?q=80&w=800&auto=format&fit=crop','cat'=>'Kids
+            ['img'=>'https://images.unsplash.com/photo-1609840114035-3c981b782dfe?q=80&w=800&auto=format&fit=crop','cat'=>'Kids
             Dental','date'=>'March 10, 2025','read'=>'3 min read','title'=>'Making Dental Visits Fun for Your
             Kids','excerpt'=>'Dental anxiety often starts in childhood. Here are our top tips for turning a dental
             check-up into an experience your child will actually look forward to.','author'=>'Dr. Keza P.'],
-            ['img'=>'https://images.unsplash.com/photo-1629909613654-28a3a7c4abd4?q=80&w=800&auto=format&fit=crop','cat'=>'Orthodontics','date'=>'February
+            ['img'=>'https://images.unsplash.com/photo-1606811841689-23dfddce3e95?q=80&w=800&auto=format&fit=crop','cat'=>'Orthodontics','date'=>'February
             20, 2025','read'=>'6 min read','title'=>'Braces vs. Clear Aligners: Which Is Right for
             You?','excerpt'=>'Both braces and Invisalign can straighten your teeth effectively, but the right choice
             depends on your lifestyle, budget, and treatment complexity. We compare them honestly.','author'=>'Dr. Amara

@@ -8,7 +8,7 @@
     {{-- Page Header --}}
     <section class="relative pt-36 pb-24 bg-[#0d1e3d] overflow-hidden">
         <div class="absolute inset-0">
-            <img src="https://images.unsplash.com/photo-1629909613654-28a3a7c4abd4?q=80&w=2070&auto=format&fit=crop"
+            <img src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?q=80&w=2070&auto=format&fit=crop"
                 class="w-full h-full object-cover opacity-20" alt="">
             <div class="absolute inset-0 bg-[#0d1e3d]/80"></div>
         </div>
@@ -34,7 +34,7 @@
                 {{-- Main Content --}}
                 <div class="lg:col-span-2">
                     <div class="rounded-3xl overflow-hidden h-72 mb-8 shadow-lg">
-                        <img src="https://images.unsplash.com/photo-1629909615184-74f495363b67?q=80&w=1200&auto=format&fit=crop"
+                        <img src="https://images.unsplash.com/photo-1629909613654-28a3a7c4abd4?q=80&w=1200&auto=format&fit=crop"
                             class="w-full h-full object-cover" alt="{{ $service->title }}">
                     </div>
                     <div class="prose prose-gray max-w-none">

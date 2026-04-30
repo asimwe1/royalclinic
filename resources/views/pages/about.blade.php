@@ -8,7 +8,7 @@
     {{-- Page Header --}}
     <section class="relative pt-36 pb-24 bg-[#0d1e3d] overflow-hidden">
         <div class="absolute inset-0">
-            <img src="https://images.unsplash.com/photo-1629909613654-28a3a7c4abd4?q=80&w=2070&auto=format&fit=crop"
+            <img src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?q=80&w=2070&auto=format&fit=crop"
                 class="w-full h-full object-cover opacity-20" alt="">
             <div class="absolute inset-0 bg-[#0d1e3d]/80"></div>
         </div>
@@ -33,21 +33,21 @@
                     <div class="grid grid-cols-2 gap-4">
                         <div class="space-y-4">
                             <div class="rounded-2xl overflow-hidden h-56 shadow-lg">
-                                <img src="https://images.unsplash.com/photo-1629909615184-74f495363b67?q=80&w=600&auto=format&fit=crop"
+                                <img src="https://images.unsplash.com/photo-1629909613654-28a3a7c4abd4?q=80&w=600&auto=format&fit=crop"
                                     class="w-full h-full object-cover" alt="Dental care">
                             </div>
                             <div class="rounded-2xl overflow-hidden h-40 shadow-lg">
-                                <img src="https://images.unsplash.com/photo-1588776814222-269e25b1f002?q=80&w=600&auto=format&fit=crop"
+                                <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=600&auto=format&fit=crop"
                                     class="w-full h-full object-cover" alt="Dental equipment">
                             </div>
                         </div>
                         <div class="space-y-4 mt-10">
                             <div class="rounded-2xl overflow-hidden h-40 shadow-lg">
-                                <img src="https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?q=80&w=600&auto=format&fit=crop"
+                                <img src="https://images.unsplash.com/photo-1609840114035-3c981b782dfe?q=80&w=600&auto=format&fit=crop"
                                     class="w-full h-full object-cover" alt="Dental team">
                             </div>
                             <div class="rounded-2xl overflow-hidden h-56 shadow-lg">
-                                <img src="https://images.unsplash.com/photo-1629909613654-28a3a7c4abd4?q=80&w=600&auto=format&fit=crop"
+                                <img src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?q=80&w=600&auto=format&fit=crop"
                                     class="w-full h-full object-cover" alt="Clinic interior">
                             </div>
                         </div>
@@ -141,8 +141,8 @@
                         <img src="{{ Storage::url($doctor->image) }}" class="w-full h-full object-cover"
                             alt="{{ $doctor->name }}">
                         @else
-                        <div class="w-full h-full bg-clinic-royal/10 flex items-center justify-center text-4xl">👨‍⚕️
-                        </div>
+                        <img src="{{ $loop->iteration % 2 == 0 ? 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=600&auto=format&fit=crop' : 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=600&auto=format&fit=crop' }}"
+                            class="w-full h-full object-cover" alt="{{ $doctor->name }}">
                         @endif
                     </div>
                     <h3 class="font-bold text-[#0d1e3d] text-lg mb-1">{{ $doctor->name }}</h3>
